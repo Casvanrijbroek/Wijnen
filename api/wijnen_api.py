@@ -67,7 +67,7 @@ def get_attributes():
     if not verify_api_key(f["api_key"]):
         return jsonify({"error_code": "401, Unauthorized"}), 401
 
-    client = create_wijnen_client()
+    client = create_wijnen_client([])
 
     return jsonify(client.get_attributes())
 
