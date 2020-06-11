@@ -22,7 +22,7 @@ from wijnen_db_client import WijnenClient
 
 app = Flask(__name__)
 
-api_key = "merlot"
+api_key = "d4189bfdc8fa4c817c3a7f894be9d61d2228662106aa6845606926a2"
 
 
 @app.route('/process_variations', methods=['POST'])
@@ -79,8 +79,8 @@ def verify_api_key(api_hash):
     :returns True if valid, else False
     """
 
-    hashed_key = hashlib.sha224(str.encode(api_key)).hexdigest()
-    if hashed_key == api_hash:
+    hashed_key = hashlib.sha224(str.encode(api_hash)).hexdigest()
+    if hashed_key == api_key:
         return True
     else:
         return False
