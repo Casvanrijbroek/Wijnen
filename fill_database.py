@@ -7,6 +7,9 @@ this data.
 The script assumes that the database container is currently running, that the gnomad.exomes.e2.1.1.sites.vcf file exists
 in the same directory and stores variants in the 'variants' collection.
 
+DISCLAIMER: This is not the prettiest code I've ever writen, but it's functional for the use-case and only meant to run
+once as part of the database creation process.
+
 Author: Cas van Rijbroek
 Date: 11 June, 2020
 """

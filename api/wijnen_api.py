@@ -1,3 +1,16 @@
+"""The official WijNen API.
+
+Uses the wijnen client and database to process variant requests send from users anywhere in the world!
+
+This code is officially hosted as part of the wijnen back-end on the scouting server currently located in
+Braamt, the Netherlands.
+
+Authors: Cas van Rijbroek
+         Lex Bosch
+Date: 11 June, 2020
+"""
+
+
 import hashlib
 import json
 
@@ -14,6 +27,17 @@ api_key = "wijn"
 
 @app.route('/process_variations', methods=['POST'])
 def gather_data():
+    """This route has been developed as part of the assignment given by Bio-Prodict to create an API that can filter
+    benign variants from a request.
+
+    The POST request should contain the following attributes:
+        - api_key: key that allows access to the wijnen API distributed by the wijnen development team
+        - variations: nested list of variations that include chromosome, position, reference nucleotide(s) and mutated
+                      nucleotide(s) in this order (format: [[CHROM, POS, REF, ALT], [...]])
+        - additional_parameters: (OPTIONAL) list of attributes to include in the output of the request
+
+    :return: JSON response with filtered variants.
+    """
     f = json.loads(request.data.decode("UTF-8"))
 
     if not verify_api_key(f["api_key"]):
@@ -37,6 +61,12 @@ def gather_data():
 
 
 def verify_api_key(api_hash):
+    """Verifies that the API key is valid.
+
+    :param: api_hash: API key given by user
+    :returns True if valid, else False
+    """
+
     hashed_key = hashlib.sha224(str.encode(api_key)).hexdigest()
     if hashed_key == api_hash:
         return True
@@ -45,6 +75,13 @@ def verify_api_key(api_hash):
 
 
 def create_wijnen_client(*args, host="wijnen-db", port=27017):
+    """Initialize a wijnen client and return it.
+
+    :param args: additional attributes to visualize on requests
+    :param host: host name of database
+    :param port: port that database communicates through
+    :return: initialized wijnen client
+    """
     return WijnenClient(host, port, *args)
 
 
