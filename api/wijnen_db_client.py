@@ -67,6 +67,7 @@ class WijnenClient(MongoClient):
         results = self["wijnen"]["attributes"].find()
 
         for result in results:
+            del result["_id"]
             response.append(result)
 
         return response
