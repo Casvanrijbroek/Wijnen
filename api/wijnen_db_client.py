@@ -61,6 +61,16 @@ class WijnenClient(MongoClient):
         else:
             raise VariantNotFoundError
 
+    def get_attributes(self):
+        response = []
+
+        results = self["wijnen"]["attributes"].find()
+
+        for result in results:
+            response.append(result)
+
+        return response
+
     @staticmethod
     def is_pathogenic(variant: dict) -> bool:
         """Checks wether or not a database entry is considered to be pathogenic based on two factors:

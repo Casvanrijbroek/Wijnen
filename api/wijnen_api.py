@@ -3,7 +3,7 @@
 Uses the wijnen client and database to process variant requests send from users anywhere in the world!
 
 This code is officially hosted as part of the wijnen back-end on the scouting server currently located in
-Braamt, the Netherlands.
+Lex's attic, the Netherlands.
 
 Authors: Cas van Rijbroek
          Lex Bosch
@@ -22,7 +22,7 @@ from wijnen_db_client import WijnenClient
 
 app = Flask(__name__)
 
-api_key = "wijn"
+api_key = "merlot"
 
 
 @app.route('/process_variations', methods=['POST'])
@@ -58,6 +58,18 @@ def gather_data():
             response["not_found"].append(variant)
 
     return jsonify(response)
+
+
+@app.route('/attribute_summary', methods=['POST'])
+def get_attributes():
+    f = json.loads(request.data.decode("UTF-8"))
+
+    if not verify_api_key(f["api_key"]):
+        return jsonify({"error_code": "401, Unauthorized"}), 401
+
+    client = create_wijnen_client(f["additional_parameters"])
+
+    return jsonify(client.get_attributes())
 
 
 def verify_api_key(api_hash):
